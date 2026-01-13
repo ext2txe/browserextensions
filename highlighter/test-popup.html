@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Storage Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; max-width: 600px; margin: 0 auto; }
+        button { padding: 10px 20px; margin: 5px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        .output { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; white-space: pre-wrap; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Extension Storage Test</h1>
+    
+    <h2>Step 1: Test Basic Storage</h2>
+    <button onclick="testBasicStorage()">Test Storage API</button>
+    <div id="basic-output" class="output"></div>
+
+    <h2>Step 2: Save Test Keywords</h2>
+    <button onclick="saveTestKeywords()">Save Test Keywords</button>
+    <div id="save-output" class="output"></div>
+
+    <h2>Step 3: Read Keywords</h2>
+    <button onclick="readKeywords()">Read Keywords</button>
+    <div id="read-output" class="output"></div>
+
+    <h2>Step 4: Close & Reopen</h2>
+    <p>After clicking "Save Test Keywords", close this popup and reopen it. Then click "Read Keywords".</p>
+
+    <script>
+        function log(id, msg, type) {
+            const el = document.getElementById(id);
+            const time = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : '';
+            el.innerHTML += `<div class="${className}">[${time}] ${msg}</div>`;
+        }
+
+        async function testBasicStorage() {
+            const output = 'basic-output';
+            document.getElementById(output).innerHTML = '';
+            
+            try {
+                log(output, 'Testing browser.storage.local...', 'info');
+                
+                // Test 1: Simple save
+                await browser.storage.local.set({ test: 'hello' });
+                log(output, '✓ Saved: {test: "hello"}', 'success');
+                
+                // Test 2: Read it back
+                const result = await browser.storage.local.get('test');
+                log(output, '✓ Read back: ' + JSON.stringify(result), 'success');
+                
+                if (result.test === 'hello') {
+                    log(output, '✓ Storage API is working!', 'success');
+                } else {
+                    log(output, '✗ Value mismatch!', 'error');
+                }
+                
+                // Test 3: Get all
+                const all = await browser.storage.local.get(null);
+                log(output, 'All storage contents: ' + JSON.stringify(all, null, 2), 'info');
+                
+            } catch (error) {
+                log(output, '✗ ERROR: ' + error.message, 'error');
+                console.error(error);
+            }
+        }
+
+        async function saveTestKeywords() {
+            const output = 'save-output';
+            document.getElementById(output).innerHTML = '';
+            
+            try {
+                const testData = {
+                    keywords: ['TEST-KEYWORD', 'India', 'Saudi Arabia'],
+                    urlPatterns: ['*://www.upwork.com/nx/find-work/*'],
+                    highlightColor: '#ffeb3b',
+                    elementSelector: 'section.air3-card-section',
+                    useWordBoundaries: true,
+                    timestamp: new Date().toISOString()
+                };
+                
+                log(output, 'Saving test data...', 'info');
+                log(output, JSON.stringify(testData, null, 2), 'info');
+                
+                await browser.storage.local.set(testData);
+                log(output, '✓ Saved successfully!', 'success');
+                
+                // Verify immediately
+                const verify = await browser.storage.local.get(null);
+                log(output, '✓ Verification read: ' + JSON.stringify(verify, null, 2), 'success');
+                
+            } catch (error) {
+                log(output, '✗ ERROR: ' + error.message, 'error');
+                console.error(error);
+            }
+        }
+
+        async function readKeywords() {
+            const output = 'read-output';
+            document.getElementById(output).innerHTML = '';
+            
+            try {
+                log(output, 'Reading all storage...', 'info');
+                
+                const data = await browser.storage.local.get(null);
+                
+                if (Object.keys(data).length === 0) {
+                    log(output, '✗ STORAGE IS EMPTY!', 'error');
+                    log(output, 'This means data did not persist.', 'error');
+                } else {
+                    log(output, '✓ Found data:', 'success');
+                    log(output, JSON.stringify(data, null, 2), 'info');
+                    
+                    if (data.keywords) {
+                        log(output, '✓ Keywords found: ' + data.keywords.join(', '), 'success');
+                    }
+                    
+                    if (data.timestamp) {
+                        log(output, 'Last saved: ' + new Date(data.timestamp).toLocaleString(), 'info');
+                    }
+                }
+                
+            } catch (error) {
+                log(output, '✗ ERROR: ' + error.message, 'error');
+                console.error(error);
+            }
+        }
+
+        // Auto-run basic test on load
+        window.addEventListener('load', () => {
+            testBasicStorage();
+        });
+    </script>
+</body>
+</html>

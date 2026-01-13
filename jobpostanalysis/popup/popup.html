@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upwork Job Analyzer</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #14a800, #108a00);
+      color: white;
+    }
+
+    h2 {
+      margin: 0 0 15px 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 10px 0;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .button {
+      width: 100%;
+      padding: 12px;
+      background: white;
+      color: #14a800;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 15px;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .button:active {
+      transform: translateY(0);
+    }
+
+    .hotkey {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 15px;
+      font-size: 12px;
+    }
+
+    .hotkey code {
+      background: rgba(255, 255, 255, 0.3);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .status {
+      margin-top: 15px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      font-size: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>📊 Upwork Job Analyzer</h2>
+  <p>Analyze Upwork job posts to extract detailed information for classification.</p>
+
+  <button id="analyzeBtn" class="button">🔍 Analyze Current Job</button>
+
+  <div class="hotkey">
+    <strong>Quick Tip:</strong> Press <code>Ctrl+Shift+V</code> anywhere on an Upwork job page to analyze!
+  </div>
+
+  <div id="status" class="status" style="display: none;"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

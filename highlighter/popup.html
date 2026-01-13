@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Job Highlighter Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Job Highlighter Settings <span id="version" style="font-size: 12px; color: #999; font-weight: normal;"></span></h2>
+    
+    <div class="section">
+      <label for="colorPicker">Highlight Color:</label>
+      <input type="color" id="colorPicker" value="#d3d3d3">
+    </div>
+
+    <div class="section">
+      <h3>Active URL Patterns</h3>
+      <p class="help-text">Extension only runs on these URL patterns. Use * as wildcard.</p>
+      
+      <div class="add-keyword">
+        <input type="text" id="newUrl" placeholder="e.g., *://www.upwork.com/*">
+        <button id="addUrlBtn">Add</button>
+      </div>
+
+      <ul id="urlList"></ul>
+    </div>
+
+    <div class="section">
+      <h3>Element Selector</h3>
+      <p class="help-text">CSS selector for elements to highlight (comma-separated)</p>
+      <input type="text" id="elementSelector" placeholder="article, .job, .listing, section">
+    </div>
+
+    <div class="section">
+      <h3>Keywords</h3>
+      <p class="help-text">Elements containing any of these keywords will be highlighted. Use * as wildcard (e.g., [$*] matches [$500], [$1000]).</p>
+
+      <label class="checkbox-label">
+        <input type="checkbox" id="wordBoundaries">
+        <span>Match whole words only (prevents "mys" from matching "MySQL")</span>
+      </label>
+
+      <div class="add-keyword">
+        <input type="text" id="newKeyword" placeholder="Enter keyword (e.g., India, [$*], node*)">
+        <button id="addBtn">Add</button>
+      </div>
+
+      <ul id="keywordList"></ul>
+    </div>
+
+    <div class="section">
+      <button id="saveBtn" class="primary">Save Settings</button>
+    </div>
+
+    <div class="section">
+      <h3>Import/Export Settings</h3>
+      <p class="help-text">Backup or restore your configuration</p>
+      <div style="display: flex; gap: 8px;">
+        <button id="exportBtn" style="flex: 1;">Export Settings</button>
+        <button id="importBtn" style="flex: 1;">Import Settings</button>
+      </div>
+      <input type="file" id="importFile" accept=".json" style="display: none;">
+    </div>
+
+    <div id="status" class="status"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

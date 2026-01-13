@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>History Search</h1>
+      <div class="header-actions">
+        <button id="saveSearch" class="icon-btn" title="Save search">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 2h10v12l-5-3-5 3V2z" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </button>
+        <button id="loadSearch" class="icon-btn" title="Load saved search">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M8 3v10" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="search-panel">
+      <div class="form-group">
+        <label for="domainFilter">Domain</label>
+        <input type="text" id="domainFilter" placeholder="e.g., udemy.com">
+        <span class="hint">Leave empty for all domains</span>
+      </div>
+
+      <div class="form-group">
+        <label for="urlPattern">URL contains</label>
+        <input type="text" id="urlPattern" placeholder="e.g., wordpress">
+        <div class="checkbox-group">
+          <input type="checkbox" id="useRegex">
+          <label for="useRegex">Use regex pattern</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="titlePattern">Title contains</label>
+        <input type="text" id="titlePattern" placeholder="Search in page titles">
+      </div>
+
+      <div class="form-group">
+        <label>Search mode</label>
+        <div class="radio-group">
+          <input type="radio" id="modeAnd" name="mode" value="and" checked>
+          <label for="modeAnd">Match ALL (AND)</label>
+          <input type="radio" id="modeOr" name="mode" value="or">
+          <label for="modeOr">Match ANY (OR)</label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group half">
+          <label for="startDate">From date</label>
+          <input type="date" id="startDate">
+        </div>
+        <div class="form-group half">
+          <label for="endDate">To date</label>
+          <input type="date" id="endDate">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="maxResults">Max results</label>
+        <input type="number" id="maxResults" value="100" min="1" max="10000">
+      </div>
+
+      <button id="searchBtn" class="primary-btn">Search History</button>
+    </div>
+
+    <div class="results-panel">
+      <div class="results-header">
+        <div class="results-count">
+          <span id="resultsCount">0</span> results
+        </div>
+        <div class="results-actions">
+          <select id="sortBy">
+            <option value="date-desc">Latest first</option>
+            <option value="date-asc">Oldest first</option>
+            <option value="title">By title</option>
+            <option value="domain">By domain</option>
+          </select>
+          <button id="exportBtn" class="secondary-btn" disabled>Export CSV</button>
+        </div>
+      </div>
+
+      <div id="results" class="results-list"></div>
+    </div>
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Modal</h2>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="sidebar.js"></script>
+</body>
+</html>

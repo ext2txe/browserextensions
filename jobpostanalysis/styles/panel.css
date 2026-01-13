@@ -1,0 +1,470 @@
+/* Upwork Job Post Analyzer - Panel Styles */
+
+/* Analysis Panel */
+.upwork-analyzer-panel {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  width: 600px;
+  max-width: 90vw;
+  max-height: 80vh;
+  background: #ffffff;
+  border: 2px solid #14a800;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 999999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.upwork-analyzer-panel .analyzer-header {
+  background: linear-gradient(135deg, #14a800, #108a00);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.upwork-analyzer-panel .analyzer-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.upwork-analyzer-panel .header-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.upwork-analyzer-panel .close-btn,
+.upwork-analyzer-panel .minimize-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 24px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  line-height: 1;
+  padding: 0;
+}
+
+.upwork-analyzer-panel .minimize-btn {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.upwork-analyzer-panel .close-btn:hover,
+.upwork-analyzer-panel .minimize-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Minimized state */
+.upwork-analyzer-panel.minimized {
+  width: 250px;
+  max-height: none;
+}
+
+/* Content */
+.upwork-analyzer-panel .analyzer-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  background: #f9f9f9;
+}
+
+/* Analysis Table */
+.analysis-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.analysis-table th,
+.analysis-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.analysis-table tr:last-child td {
+  border-bottom: none;
+}
+
+.analysis-table .section-header {
+  background: #f0f0f0;
+  font-weight: 700;
+  font-size: 15px;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.analysis-table .job-count {
+  font-size: 12px;
+  font-weight: normal;
+  color: #666;
+  margin-left: 8px;
+}
+
+.analysis-table .label {
+  font-weight: 600;
+  color: #555;
+  width: 40%;
+  background: #fafafa;
+}
+
+.analysis-table .value {
+  color: #333;
+  word-break: break-word;
+}
+
+.analysis-table .classification-value {
+  padding: 8px 15px;
+}
+
+.analysis-table .classification-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.analysis-table .classification-input:focus {
+  outline: none;
+  border-color: #14a800;
+}
+
+/* Job History Details */
+.job-history-details {
+  margin-top: 15px;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.history-table thead {
+  background: #f0f0f0;
+}
+
+.history-table th {
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #555;
+  border-bottom: 2px solid #ddd;
+}
+
+.history-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333;
+}
+
+.history-table tr:last-child td {
+  border-bottom: none;
+}
+
+.history-table tr:hover {
+  background: #f9f9f9;
+}
+
+.history-table .job-link,
+.history-table .freelancer-link {
+  color: #14a800;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.history-table .job-link:hover,
+.history-table .freelancer-link:hover {
+  text-decoration: underline;
+  color: #108a00;
+}
+
+/* Footer */
+.upwork-analyzer-panel .analyzer-footer {
+  padding: 15px 20px;
+  background: #f5f5f5;
+  border-top: 1px solid #ddd;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.upwork-analyzer-panel .auto-export-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+  color: #555;
+}
+
+.upwork-analyzer-panel .auto-export-checkbox input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.upwork-analyzer-panel .analyzer-footer button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.upwork-analyzer-panel .btn-copy-json {
+  background: #2196F3;
+  color: white;
+}
+
+.upwork-analyzer-panel .btn-copy-json:hover {
+  background: #1976D2;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+}
+
+.upwork-analyzer-panel .btn-export-json {
+  background: #4CAF50;
+  color: white;
+}
+
+.upwork-analyzer-panel .btn-export-json:hover {
+  background: #388E3C;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.upwork-analyzer-panel .btn-toggle-details {
+  background: #FF9800;
+  color: white;
+}
+
+.upwork-analyzer-panel .btn-toggle-details:hover {
+  background: #F57C00;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+}
+
+/* Notification */
+.upwork-analyzer-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000000;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+.upwork-analyzer-notification.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.upwork-analyzer-notification.success {
+  background: #4CAF50;
+}
+
+.upwork-analyzer-notification.error {
+  background: #f44336;
+}
+
+.upwork-analyzer-notification.info {
+  background: #2196F3;
+}
+
+/* Scrollbar Styling */
+.upwork-analyzer-panel .analyzer-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.upwork-analyzer-panel .analyzer-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.upwork-analyzer-panel .analyzer-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.upwork-analyzer-panel .analyzer-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Compact Panel */
+.upwork-analyzer-compact-panel {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 320px;
+  max-width: 90vw;
+  background: #ffffff;
+  border: 2px solid #14a800;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 999999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+  font-size: 13px;
+}
+
+/* Pink background when hires > 0 */
+.upwork-analyzer-compact-panel.has-hires {
+  background: #ffb3d9;
+}
+
+.upwork-analyzer-compact-panel.has-hires .compact-content {
+  background: #ffc7e3;
+}
+
+.upwork-analyzer-compact-panel.has-hires .compact-item {
+  background: #ffd6eb;
+}
+
+.upwork-analyzer-compact-panel .compact-header {
+  background: linear-gradient(135deg, #14a800, #108a00);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.upwork-analyzer-compact-panel .compact-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.upwork-analyzer-compact-panel .compact-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.upwork-analyzer-compact-panel .compact-close-btn,
+.upwork-analyzer-compact-panel .btn-toggle-mode,
+.upwork-analyzer-compact-panel .btn-auto-mode,
+.upwork-analyzer-compact-panel .btn-full-analysis {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 16px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  padding: 0;
+}
+
+.upwork-analyzer-compact-panel .compact-close-btn:hover,
+.upwork-analyzer-compact-panel .btn-toggle-mode:hover,
+.upwork-analyzer-compact-panel .btn-auto-mode:hover,
+.upwork-analyzer-compact-panel .btn-full-analysis:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.upwork-analyzer-compact-panel .btn-auto-mode {
+  opacity: 0.5;
+}
+
+.upwork-analyzer-compact-panel .compact-content {
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 0 0 6px 6px;
+}
+
+.upwork-analyzer-compact-panel .compact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.upwork-analyzer-compact-panel .compact-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.upwork-analyzer-compact-panel .compact-label {
+  font-weight: 600;
+  color: #555;
+  font-size: 12px;
+}
+
+.upwork-analyzer-compact-panel .compact-value {
+  color: #333;
+  font-weight: 500;
+  text-align: right;
+  font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .upwork-analyzer-panel {
+    width: 95vw;
+    max-height: 90vh;
+    top: 5vh;
+    right: 2.5vw;
+  }
+
+  .analysis-table .label {
+    width: 45%;
+  }
+
+  .history-table {
+    font-size: 12px;
+  }
+
+  .history-table th,
+  .history-table td {
+    padding: 8px;
+  }
+
+  .upwork-analyzer-compact-panel {
+    width: 95vw;
+    right: 2.5vw;
+  }
+}

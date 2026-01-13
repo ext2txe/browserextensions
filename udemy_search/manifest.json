@@ -1,0 +1,34 @@
+{
+  "manifest_version": 2,
+  "name": "Udemy Search Results Extractor 0.1.10",
+  "version": "0.1.10",
+  "description": "Extracts Udemy course data from search results (title, link, rating, counts, duration, lectures, last updated).",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "https://www.udemy.com/*"
+  ],
+  "browser_action": {
+    "default_title": "Extract Udemy Results",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.udemy.com/courses/search/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U"
+      },
+      "description": "Open Udemy Extractor popup"
+    }
+  }
+}

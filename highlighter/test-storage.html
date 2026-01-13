@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Storage Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .output {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Extension Storage Diagnostic Tool</h1>
+    
+    <div class="section">
+        <h2>Test 1: Save Test Data</h2>
+        <button onclick="saveTestData()">Save Test Settings</button>
+        <div id="save-output" class="output"></div>
+    </div>
+
+    <div class="section">
+        <h2>Test 2: Read Stored Data</h2>
+        <button onclick="readStoredData()">Read All Settings</button>
+        <div id="read-output" class="output"></div>
+    </div>
+
+    <div class="section">
+        <h2>Test 3: Clear All Data</h2>
+        <button onclick="clearAllData()">Clear Storage</button>
+        <div id="clear-output" class="output"></div>
+    </div>
+
+    <div class="section">
+        <h2>Test 4: Verify Persistence</h2>
+        <p>1. Click "Save Test Settings" above</p>
+        <p>2. Close this tab</p>
+        <p>3. Reopen this page</p>
+        <p>4. Click "Read All Settings"</p>
+        <p>Expected: You should see the test data</p>
+    </div>
+
+    <script>
+        const log = (elementId, message, type = 'info') => {
+            const output = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : '';
+            output.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+        };
+
+        async function saveTestData() {
+            const output = document.getElementById('save-output');
+            output.innerHTML = '';
+            
+            try {
+                const testData = {
+                    keywords: ['test-keyword-1', 'test-keyword-2', 'India', 'Saudi Arabia'],
+                    urlPatterns: ['*://www.upwork.com/nx/find-work/*'],
+                    highlightColor: '#ffeb3b',
+                    elementSelector: 'section.air3-card-section',
+                    useWordBoundaries: true,
+                    testTimestamp: new Date().toISOString()
+                };
+                
+                log('save-output', 'Attempting to save test data...', 'info');
+                log('save-output', JSON.stringify(testData, null, 2), 'info');
+                
+                await browser.storage.local.set(testData);
+                
+                log('save-output', '✓ Data saved successfully!', 'success');
+                
+                // Verify it was saved
+                const verified = await browser.storage.local.get(null);
+                log('save-output', 'Verification read:', 'info');
+                log('save-output', JSON.stringify(verified, null, 2), 'success');
+                
+            } catch (error) {
+                log('save-output', '✗ Error: ' + error.message, 'error');
+                console.error(error);
+            }
+        }
+
+        async function readStoredData() {
+            const output = document.getElementById('read-output');
+            output.innerHTML = '';
+            
+            try {
+                log('read-output', 'Reading all stored data...', 'info');
+                
+                const data = await browser.storage.local.get(null);
+                
+                if (Object.keys(data).length === 0) {
+                    log('read-output', '⚠ No data found in storage!', 'error');
+                } else {
+                    log('read-output', '✓ Found data:', 'success');
+                    log('read-output', JSON.stringify(data, null, 2), 'info');
+                }
+                
+                // Also check specific keys
+                const specific = await browser.storage.local.get(['keywords', 'urlPatterns', 'highlightColor', 'elementSelector', 'useWordBoundaries']);
+                log('read-output', '\nSpecific keys:', 'info');
+                log('read-output', JSON.stringify(specific, null, 2), 'info');
+                
+            } catch (error) {
+                log('read-output', '✗ Error: ' + error.message, 'error');
+                console.error(error);
+            }
+        }
+
+        async function clearAllData() {
+            const output = document.getElementById('clear-output');
+            output.innerHTML = '';
+            
+            try {
+                log('clear-output', 'Clearing all storage...', 'info');
+                
+                await browser.storage.local.clear();
+                
+                log('clear-output', '✓ Storage cleared!', 'success');
+                
+                // Verify it's empty
+                const data = await browser.storage.local.get(null);
+                log('clear-output', 'Verification - items in storage: ' + Object.keys(data).length, 'info');
+                
+            } catch (error) {
+                log('clear-output', '✗ Error: ' + error.message, 'error');
+                console.error(error);
+            }
+        }
+
+        // Auto-read on page load
+        window.addEventListener('load', () => {
+            setTimeout(readStoredData, 500);
+        });
+    </script>
+</body>
+</html>
