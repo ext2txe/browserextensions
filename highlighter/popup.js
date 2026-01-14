@@ -1,5 +1,5 @@
 // Upwork Job Highlighter - Popup Script
-const VERSION = '0.2.9';
+const VERSION = '0.2.10';
 
 // Browser API polyfill for Chrome/Edge compatibility
 if (typeof browser === 'undefined') {
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const exportBtn = document.getElementById('exportBtn');
   const importBtn = document.getElementById('importBtn');
   const importFile = document.getElementById('importFile');
+  const clearAllBtn = document.getElementById('clearAllBtn');
 
   let keywords = [];
   let urlPatterns = [];
@@ -151,6 +152,20 @@ document.addEventListener('DOMContentLoaded', function() {
     keywords.splice(index, 1);
     renderKeywordList();
     showStatus('Keyword removed. Click "Save Settings" to apply.', 'info');
+  }
+
+  // Clear all keywords
+  function clearAllKeywords() {
+    if (keywords.length === 0) {
+      showStatus('No keywords to clear.', 'info');
+      return;
+    }
+
+    if (confirm(`Are you sure you want to clear all ${keywords.length} keyword(s)? This action cannot be undone.`)) {
+      keywords = [];
+      renderKeywordList();
+      showStatus('All keywords cleared. Click "Save Settings" to apply.', 'success');
+    }
   }
 
   // Delete a URL
@@ -326,6 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
   exportBtn.addEventListener('click', exportSettings);
   importBtn.addEventListener('click', importSettings);
   importFile.addEventListener('change', handleFileImport);
+  clearAllBtn.addEventListener('click', clearAllKeywords);
 
   // Set version in title
   const versionSpan = document.getElementById('version');

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Keyword Highlighter",
-  "version": "0.2.9",
+  "name": "Keyword Highlighter 0.2.10",
+  "version": "0.2.10",
   "description": "Highlight elements on any website based on custom keywords and URL patterns. Supports wildcards and real-time filtering.",
 
   "browser_specific_settings": {

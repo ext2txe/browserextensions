@@ -77,3 +77,6 @@ resources_rc.py
 output/*
 zips/
 tmpclaude-*
+
+# Highlighter extension saved settings
+highlighter/saved/
