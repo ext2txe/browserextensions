@@ -3,6 +3,7 @@ let isRunning = false;
 let settings = null;
 let clickCount = 0;
 let automationTimeout = null;
+let contentObserver = null;
 
 // Send status update to popup
 function updateStatus(status, level = 'info') {
@@ -158,13 +159,9 @@ async function runAutomationCycle() {
     clickCount++;
     updateCounter();
 
-    // Step 3: Wait for pause duration
-    await sleep(settings.pauseDuration);
-
-    if (!isRunning) return;
-
-    // Step 3.5: Short delay before keypress to allow page to update
-    await sleep(500);
+    // Step 3: Wait for content to finish loading (intelligent detection)
+    updateStatus(`Waiting for content to load... (${clickCount})`, 'running');
+    await waitForContentLoad(settings.pauseDuration || 10000);
 
     if (!isRunning) return;
 
@@ -173,13 +170,13 @@ async function runAutomationCycle() {
     const buttonAfterLoad = findButton(settings.buttonText);
     if (buttonAfterLoad) {
       buttonAfterLoad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Brief pause to allow smooth scroll to complete
+      await sleep(300);
     } else {
       // Fallback to keypress if button not found
       simulateKeyPress(settings.keyPress);
+      await sleep(300);
     }
-
-    // Step 5: Wait a bit for content to load after keypress
-    await sleep(settings.pauseDuration);
 
     if (!isRunning) return;
 
@@ -205,6 +202,67 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+// Wait for content to finish loading using MutationObserver
+function waitForContentLoad(timeout = 10000) {
+  return new Promise((resolve) => {
+    let timeoutId;
+    let idleTimer;
+    const idleDelay = 500; // Consider content loaded if no changes for 500ms
+
+    // Fallback timeout to prevent infinite waiting
+    timeoutId = setTimeout(() => {
+      if (contentObserver) {
+        contentObserver.disconnect();
+        contentObserver = null;
+      }
+      if (idleTimer) clearTimeout(idleTimer);
+      resolve();
+    }, timeout);
+
+    // Reset idle timer when mutations occur
+    const resetIdleTimer = () => {
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        // No mutations for idleDelay ms, consider loading complete
+        if (contentObserver) {
+          contentObserver.disconnect();
+          contentObserver = null;
+        }
+        clearTimeout(timeoutId);
+        resolve();
+      }, idleDelay);
+    };
+
+    // Observe DOM changes
+    contentObserver = new MutationObserver((mutations) => {
+      // Filter out insignificant mutations (like style changes, class changes)
+      const significantMutations = mutations.filter(mutation => {
+        // Consider additions/removals of nodes as significant
+        if (mutation.addedNodes.length > 0 || mutation.removedNodes.length > 0) {
+          return true;
+        }
+        // Ignore attribute changes (classes, styles, etc.)
+        return false;
+      });
+
+      if (significantMutations.length > 0) {
+        resetIdleTimer();
+      }
+    });
+
+    // Start observing
+    contentObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: false, // Ignore attribute changes for performance
+      characterData: false // Ignore text changes for performance
+    });
+
+    // Start the idle timer
+    resetIdleTimer();
+  });
+}
+
 // Start automation
 function startAutomation(config) {
   if (isRunning) {
@@ -227,6 +285,10 @@ function stopAutomation(reason) {
   if (automationTimeout) {
     clearTimeout(automationTimeout);
     automationTimeout = null;
+  }
+  if (contentObserver) {
+    contentObserver.disconnect();
+    contentObserver = null;
   }
   notifyStop(reason);
 }

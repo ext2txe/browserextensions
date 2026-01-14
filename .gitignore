@@ -76,3 +76,4 @@ config.local.json
 resources_rc.py
 output/*
 zips/
+tmpclaude-*

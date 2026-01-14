@@ -13,7 +13,7 @@ async function initializePopup() {
   // Load saved settings
   const items = await browser.storage.sync.get({
     buttonText: 'Load More Jobs',
-    pauseDuration: 1000,
+    pauseDuration: 10000,
     keyPress: 'PageDown',
     stopString: 'Posted 2 days ago'
   });
@@ -84,8 +84,8 @@ startBtn.addEventListener('click', async () => {
     return;
   }
 
-  if (settings.pauseDuration < 100) {
-    statusDiv.textContent = 'Pause duration must be at least 100ms';
+  if (settings.pauseDuration < 1000) {
+    statusDiv.textContent = 'Max load wait must be at least 1000ms';
     statusDiv.className = 'status status-error';
     return;
   }

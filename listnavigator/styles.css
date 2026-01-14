@@ -93,14 +93,16 @@
   border-color: #667eea;
 }
 
-#job-navigator-ignore-container {
+#job-navigator-ignore-container,
+#job-navigator-onlyshow-container {
   margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-#job-navigator-ignore-label {
+#job-navigator-ignore-label,
+#job-navigator-onlyshow-label {
   display: flex;
   align-items: center;
   font-size: 13px;
@@ -109,12 +111,14 @@
   flex: 1;
 }
 
-#job-navigator-ignore-enabled {
+#job-navigator-ignore-enabled,
+#job-navigator-onlyshow-enabled {
   margin-right: 6px;
   cursor: pointer;
 }
 
-#job-navigator-ignore-color {
+#job-navigator-ignore-color,
+#job-navigator-onlyshow-color {
   width: 50px;
   height: 32px;
   border: 2px solid #ddd;
@@ -123,7 +127,8 @@
   padding: 2px;
 }
 
-#job-navigator-ignore-color:disabled {
+#job-navigator-ignore-color:disabled,
+#job-navigator-onlyshow-color:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }

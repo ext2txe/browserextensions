@@ -8,7 +8,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Auto Load More</h1>
+    <h1>Auto Load More <span style="font-size: 0.6em; color: #666;">v0.1.5</span></h1>
 
     <div class="settings">
       <div class="field">
@@ -18,9 +18,9 @@
       </div>
 
       <div class="field">
-        <label for="pauseDuration">Pause Duration (ms):</label>
-        <input type="number" id="pauseDuration" value="1000" min="100" step="100" />
-        <span class="help">Delay between actions in milliseconds</span>
+        <label for="pauseDuration">Max Load Wait (ms):</label>
+        <input type="number" id="pauseDuration" value="10000" min="1000" step="1000" />
+        <span class="help">Maximum time to wait for content to load (default: 10000ms)</span>
       </div>
 
       <div class="field">

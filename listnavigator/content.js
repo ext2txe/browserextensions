@@ -16,6 +16,8 @@
   let nextButton = null;
   let ignoreEnabledCheckbox = null;
   let ignoreColorInput = null;
+  let onlyShowEnabledCheckbox = null;
+  let onlyShowColorInput = null;
   let matches = [];
   let currentMatchIndex = -1;
   let ignoredCount = 0;
@@ -30,7 +32,7 @@
     panel.id = 'job-navigator-panel';
     panel.innerHTML = `
       <div id="job-navigator-header">
-        <span>List Navigator <span style="font-size: 0.8em; opacity: 0.7;">v0.1.11</span></span>
+        <span>List Navigator <span style="font-size: 0.8em; opacity: 0.7;">v0.1.13</span></span>
         <button id="job-navigator-close" title="Close (Esc)">×</button>
       </div>
       <div id="job-navigator-content">
@@ -48,6 +50,13 @@
             Ignore matches with background color:
           </label>
           <input type="color" id="job-navigator-ignore-color" value="#ffffff" disabled />
+        </div>
+        <div id="job-navigator-onlyshow-container">
+          <label id="job-navigator-onlyshow-label">
+            <input type="checkbox" id="job-navigator-onlyshow-enabled" />
+            Only show matches with background color:
+          </label>
+          <input type="color" id="job-navigator-onlyshow-color" value="#ffffff" disabled />
         </div>
         <div id="job-navigator-controls">
           <button id="job-navigator-prev" disabled>↑ Previous</button>
@@ -77,6 +86,8 @@
     nextButton = document.getElementById('job-navigator-next');
     ignoreEnabledCheckbox = document.getElementById('job-navigator-ignore-enabled');
     ignoreColorInput = document.getElementById('job-navigator-ignore-color');
+    onlyShowEnabledCheckbox = document.getElementById('job-navigator-onlyshow-enabled');
+    onlyShowColorInput = document.getElementById('job-navigator-onlyshow-color');
     const refreshButton = document.getElementById('job-navigator-refresh');
     const closeButton = document.getElementById('job-navigator-close');
     const header = document.getElementById('job-navigator-header');
@@ -87,6 +98,8 @@
     const savedSearchText = localStorage.getItem('list-navigator-search-text') || '';
     const savedIgnoreEnabled = localStorage.getItem('list-navigator-ignore-enabled') === 'true';
     const savedIgnoreColor = localStorage.getItem('list-navigator-ignore-color') || '#ffffff';
+    const savedOnlyShowEnabled = localStorage.getItem('list-navigator-onlyshow-enabled') === 'true';
+    const savedOnlyShowColor = localStorage.getItem('list-navigator-onlyshow-color') || '#ffffff';
 
     if (savedSelector) {
       selectorInput.value = savedSelector;
@@ -103,6 +116,17 @@
     ignoreColorInput.value = savedIgnoreColor;
     ignoreColorInput.disabled = !savedIgnoreEnabled;
 
+    onlyShowEnabledCheckbox.checked = savedOnlyShowEnabled;
+    onlyShowColorInput.value = savedOnlyShowColor;
+    onlyShowColorInput.disabled = !savedOnlyShowEnabled;
+
+    // If both are enabled, disable ignore (only show takes precedence)
+    if (savedIgnoreEnabled && savedOnlyShowEnabled) {
+      ignoreEnabledCheckbox.checked = false;
+      ignoreColorInput.disabled = true;
+      localStorage.setItem('list-navigator-ignore-enabled', 'false');
+    }
+
     // Checkbox handler
     useSelectorCheckbox.addEventListener('change', () => {
       const useSelector = useSelectorCheckbox.checked;
@@ -115,6 +139,14 @@
     ignoreEnabledCheckbox.addEventListener('change', () => {
       const ignoreEnabled = ignoreEnabledCheckbox.checked;
       ignoreColorInput.disabled = !ignoreEnabled;
+
+      // Mutually exclusive: if enabling Ignore, disable Only Show
+      if (ignoreEnabled && onlyShowEnabledCheckbox.checked) {
+        onlyShowEnabledCheckbox.checked = false;
+        onlyShowColorInput.disabled = true;
+        localStorage.setItem('list-navigator-onlyshow-enabled', 'false');
+      }
+
       localStorage.setItem('list-navigator-ignore-enabled', ignoreEnabled);
       console.log('[List Navigator] Ignore checkbox changed:', ignoreEnabled);
       performSearch();
@@ -123,7 +155,31 @@
     ignoreColorInput.addEventListener('input', () => {
       const newColor = ignoreColorInput.value;
       localStorage.setItem('list-navigator-ignore-color', newColor);
-      console.log('[List Navigator] Color changed:', newColor);
+      console.log('[List Navigator] Ignore color changed:', newColor);
+      performSearch();
+    });
+
+    // Only Show feature handlers
+    onlyShowEnabledCheckbox.addEventListener('change', () => {
+      const onlyShowEnabled = onlyShowEnabledCheckbox.checked;
+      onlyShowColorInput.disabled = !onlyShowEnabled;
+
+      // Mutually exclusive: if enabling Only Show, disable Ignore
+      if (onlyShowEnabled && ignoreEnabledCheckbox.checked) {
+        ignoreEnabledCheckbox.checked = false;
+        ignoreColorInput.disabled = true;
+        localStorage.setItem('list-navigator-ignore-enabled', 'false');
+      }
+
+      localStorage.setItem('list-navigator-onlyshow-enabled', onlyShowEnabled);
+      console.log('[List Navigator] Only Show checkbox changed:', onlyShowEnabled);
+      performSearch();
+    });
+
+    onlyShowColorInput.addEventListener('input', () => {
+      const newColor = onlyShowColorInput.value;
+      localStorage.setItem('list-navigator-onlyshow-color', newColor);
+      console.log('[List Navigator] Only Show color changed:', newColor);
       performSearch();
     });
 
@@ -151,8 +207,18 @@
     // Close button
     closeButton.addEventListener('click', hidePanel);
 
-    // Enter key for next, Shift+Enter for previous
-    searchInput.addEventListener('keydown', (e) => {
+    // Global keyboard shortcuts when panel is visible
+    document.addEventListener('keydown', (e) => {
+      // Only handle shortcuts if panel is visible
+      if (!panel.classList.contains('visible')) return;
+
+      // Escape key to close
+      if (e.key === 'Escape') {
+        hidePanel();
+        return;
+      }
+
+      // Enter key for next, Shift+Enter for previous
       if (e.key === 'Enter') {
         e.preventDefault();
         if (e.shiftKey) {
@@ -160,13 +226,6 @@
         } else {
           navigateToNext();
         }
-      }
-    });
-
-    // Escape key to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && panel.classList.contains('visible')) {
-        hidePanel();
       }
     });
 
@@ -314,7 +373,7 @@
     // Debug logging
     const isMatch = colorsMatch(computedBg, targetColor);
     if (element.textContent.toLowerCase().includes('less than')) {
-      console.log('[List Navigator] Color check:', {
+      console.log('[List Navigator] Ignore color check:', {
         element: element.textContent.substring(0, 50),
         computedBg,
         targetColor,
@@ -323,6 +382,33 @@
     }
 
     // Compare colors
+    return isMatch;
+  }
+
+  // Helper: Check if element should be shown based on background color (Only Show mode)
+  function shouldOnlyShowElement(element) {
+    if (!onlyShowEnabledCheckbox || !onlyShowEnabledCheckbox.checked) {
+      return true; // If Only Show is not enabled, show all elements
+    }
+
+    const targetColor = onlyShowColorInput ? onlyShowColorInput.value : null;
+    if (!targetColor) return true;
+
+    // Get effective background color (checking parents if transparent)
+    const computedBg = getEffectiveBackgroundColor(element);
+
+    // Debug logging
+    const isMatch = colorsMatch(computedBg, targetColor);
+    if (element.textContent.toLowerCase().includes('less than')) {
+      console.log('[List Navigator] Only Show color check:', {
+        element: element.textContent.substring(0, 50),
+        computedBg,
+        targetColor,
+        isMatch
+      });
+    }
+
+    // Return true only if color matches (opposite of shouldIgnoreElement)
     return isMatch;
   }
 
@@ -427,14 +513,17 @@
       if (text.includes(searchTerm)) {
         // Check background color BEFORE applying highlight class
         // (highlight class changes background with !important)
+
+        // Apply filters (mutually exclusive)
         const shouldIgnore = shouldIgnoreElement(element);
+        const shouldShow = shouldOnlyShowElement(element);
 
         // Add to matches or ignored count
-        if (shouldIgnore) {
+        if (shouldIgnore || !shouldShow) {
           ignoredCount++;
-          // Don't highlight ignored elements at all
+          // Don't highlight ignored/filtered elements at all
         } else {
-          // Only highlight non-ignored matches
+          // Only highlight matches that pass filters
           element.classList.add('job-navigator-highlight');
           matches.push(element);
         }

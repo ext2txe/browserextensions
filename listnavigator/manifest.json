@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "List Navigator",
-  "version": "0.1.11",
+  "name": "List Navigator 0.1.13",
+  "version": "0.1.13",
   "description": "Navigate through any webpage with advanced search and filtering",
   "permissions": [
     "activeTab",

@@ -1,11 +1,12 @@
-# Auto Load More - Firefox Extension
+# Auto Load More - Firefox Extension v0.1.5
 
 A Firefox extension that automates clicking "Load More" buttons with customizable pagination and stop conditions.
 
 ## Features
 
 - **Customizable Button Detection**: Define the text/caption of the button to click (supports partial matching)
-- **Configurable Delays**: Set pause duration between actions in milliseconds
+- **Intelligent Content Loading**: Automatically detects when new content finishes loading using DOM mutation observation
+- **Configurable Timeout**: Set maximum wait time for content to load (with fallback protection)
 - **Keyboard Automation**: Automatically press keys (PageDown, ArrowDown, End, Space) after each button click
 - **Smart Stop Conditions**: Automatically stops when a specified text appears on the page
 - **Visual Feedback**: Real-time status updates and click counter
@@ -42,7 +43,7 @@ Alternatively, you can use Firefox Developer Edition or Nightly with `xpinstall.
 
 3. **Configure the settings**:
    - **Button Text/Caption**: Enter the text to find in the button (default: "Load More Jobs")
-   - **Pause Duration**: Set the delay between actions in milliseconds (default: 1000ms)
+   - **Max Load Wait**: Set the maximum time to wait for content to load in milliseconds (default: 10000ms)
    - **Key to Press**: Select which key to press after clicking (default: PageDown)
    - **Stop String**: Enter text that signals when to stop (default: "Posted 2 days ago")
 
@@ -58,29 +59,40 @@ The extension follows this cycle:
 
 1. Check if the stop string appears on the page → Stop if found
 2. Find and click the button matching your text
-3. Wait for the configured pause duration
-4. Press the configured keyboard key
-5. Wait again for content to load
-6. Check for stop string again → Stop if found
-7. Repeat from step 1
+3. **Wait intelligently for new content to finish loading** (monitors DOM changes)
+4. Scroll to keep the button visible or press the configured keyboard key
+5. Check for stop string again → Stop if found
+6. Repeat from step 1
+
+### Intelligent Content Loading (New in v0.1.5)
+
+Instead of using a fixed delay, the extension now uses a **MutationObserver** to detect when the page finishes loading new content:
+
+- Monitors DOM changes after clicking the button
+- Waits 500ms of idle time (no new content added) before proceeding
+- Has a maximum timeout (configurable) to prevent infinite waiting
+- Only considers significant changes (new elements added/removed)
+- Ignores style and attribute changes for better performance
 
 ## Example Use Case
 
-For job listing sites like the one you mentioned:
+For job listing sites:
 
 ```
 Button Text: "Load More Jobs"
-Pause Duration: 1000 (1 second)
+Max Load Wait: 10000 (10 seconds maximum)
 Key to Press: PageDown
 Stop String: "Posted 2 days ago"
 ```
 
 The extension will:
 - Click "Load More Jobs"
-- Scroll down (PageDown)
-- Load more jobs
+- Wait for new content to finish loading (typically 1-3 seconds)
+- Scroll to keep the button visible
 - Continue until it finds a job posted 2 days ago
 - Alert you and stop automatically
+
+**Performance**: The intelligent loading detection means the extension proceeds as soon as content finishes loading, making it much faster than fixed delays while being more reliable than waiting too little.
 
 ## Troubleshooting
 

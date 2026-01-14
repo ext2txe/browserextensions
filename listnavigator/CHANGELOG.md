@@ -1,5 +1,56 @@
 # Changelog
 
+## Version 0.1.13
+
+### New Feature: "Only Show" Background Color Filter
+
+**Added inverse color filter option** ✅
+- New "Only show matches with background color" option
+- Works inversely to "Ignore" - only displays matches with the specified background color
+- Mutually exclusive with "Ignore" option
+- When "Only Show" is enabled, "Ignore" is automatically disabled and vice versa
+- Uses same color matching logic as Ignore feature
+- Persistent across sessions via localStorage
+
+**Use Cases:**
+- Show only highlighted items (e.g., yellow background)
+- Focus on specific categories marked by background color
+- Filter to see only bookmarked/flagged items
+
+**Technical Implementation:**
+- Added `onlyShowEnabledCheckbox` and `onlyShowColorInput` UI elements
+- Added `shouldOnlyShowElement()` helper function (returns true only if color matches)
+- Modified `performSearch()` to check both filters: `shouldIgnore || !shouldShow`
+- Automatic mutual exclusion in change event handlers
+- On load, if both are enabled, Ignore is disabled (Only Show takes precedence)
+
+**Added:**
+- Version number in extension name: "List Navigator 0.1.13"
+
+---
+
+## Version 0.1.12
+
+### Bug Fix: Enter and Shift+Enter Keyboard Shortcuts
+
+**Fixed navigation shortcuts not working** ✅
+- Enter and Shift+Enter now work globally when panel is visible
+- Previously only worked when search input field had focus
+- Now works from any input field or button in the panel
+- Enter: Navigate to next match
+- Shift+Enter: Navigate to previous match
+- Escape: Close panel (still works)
+
+**Technical change:**
+- Moved keyboard event listener from `searchInput` to `document` level
+- Added check to only handle shortcuts when panel is visible
+- Prevents shortcuts from interfering with page when panel is closed
+
+**Added:**
+- Version number in extension name: "List Navigator 0.1.12"
+
+---
+
 ## Version 0.1.11
 
 ### UX Improvement: Don't Highlight Ignored Matches
