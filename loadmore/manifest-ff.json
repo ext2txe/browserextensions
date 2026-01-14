@@ -1,14 +1,14 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "Auto Load More 0.1.5",
   "version": "0.1.5",
   "description": "Automatically clicks 'Load More' buttons with customizable pagination and stop conditions",
   "permissions": [
     "activeTab",
     "storage",
-    "scripting"
+    "<all_urls>"
   ],
-  "action": {
+  "browser_action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon-16.png",
@@ -29,5 +29,11 @@
       "js": ["content.js"],
       "run_at": "document_idle"
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "autoloadmore@example.com",
+      "strict_min_version": "109.0"
+    }
+  }
 }

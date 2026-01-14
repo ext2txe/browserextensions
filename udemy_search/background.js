@@ -1,3 +1,6 @@
+// Cross-browser compatibility
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+
 let currentJob = null;
 let panelWindowId = null;
 // currentJob = {
@@ -15,9 +18,9 @@ async function openPanel() {
   // Check if panel window still exists
   if (panelWindowId) {
     try {
-      const win = await browser.windows.get(panelWindowId);
+      const win = await browserAPI.windows.get(panelWindowId);
       // If window exists, focus it
-      await browser.windows.update(panelWindowId, { focused: true });
+      await browserAPI.windows.update(panelWindowId, { focused: true });
       return panelWindowId;
     } catch (e) {
       // Window was closed, create a new one
@@ -26,7 +29,7 @@ async function openPanel() {
   }
 
   // Create new panel window
-  const win = await browser.windows.create({
+  const win = await browserAPI.windows.create({
     url: "panel.html",
     type: "popup",
     width: 1000,
@@ -41,11 +44,11 @@ async function notifyPanel() {
   if (!panelWindowId) return;
 
   try {
-    const win = await browser.windows.get(panelWindowId);
+    const win = await browserAPI.windows.get(panelWindowId);
     // Send message to all tabs in the panel window
-    const tabs = await browser.tabs.query({ windowId: panelWindowId });
+    const tabs = await browserAPI.tabs.query({ windowId: panelWindowId });
     for (const tab of tabs) {
-      browser.tabs.sendMessage(tab.id, { type: "PANEL_UPDATE" }).catch(() => {});
+      browserAPI.tabs.sendMessage(tab.id, { type: "PANEL_UPDATE" }).catch(() => {});
     }
   } catch (e) {
     // Panel was closed
@@ -125,7 +128,7 @@ function formatDateToYYYYMMDD(dateStr) {
   return dateStr;
 }
 
-browser.runtime.onMessage.addListener(async (msg, sender) => {
+browserAPI.runtime.onMessage.addListener(async (msg, sender) => {
   // Start a job
   if (msg?.type === "JOB_START") {
     // Prevent double-start
@@ -142,7 +145,7 @@ browser.runtime.onMessage.addListener(async (msg, sender) => {
       const includeUpdated = !!msg.includeUpdated;
 
       // 1) Ask content script for base extraction
-      const resp = await browser.tabs.sendMessage(tabId, { type: "UDEMY_EXTRACT" });
+      const resp = await browserAPI.tabs.sendMessage(tabId, { type: "UDEMY_EXTRACT" });
       if (!resp?.ok) throw new Error("Content script extraction failed.");
 
       let courses = resp.courses || [];
@@ -155,7 +158,7 @@ browser.runtime.onMessage.addListener(async (msg, sender) => {
         : `Done. Found ${currentJob.total} courses.`;
 
       // Persist snapshot (optional but helpful)
-      await browser.storage.local.set({ lastResults: currentJob.results });
+      await browserAPI.storage.local.set({ lastResults: currentJob.results });
 
       // 2) If requested, fetch updates sequentially and report progress
       if (includeUpdated && currentJob.total) {
@@ -176,7 +179,7 @@ browser.runtime.onMessage.addListener(async (msg, sender) => {
 
           // Update stored results occasionally (optional)
           if ((i + 1) % 5 === 0 || i === currentJob.results.length - 1) {
-            await browser.storage.local.set({ lastResults: currentJob.results });
+            await browserAPI.storage.local.set({ lastResults: currentJob.results });
           }
 
           // light throttle
@@ -203,7 +206,7 @@ browser.runtime.onMessage.addListener(async (msg, sender) => {
 
   // Load last buffered results even if no job running
   if (msg?.type === "LOAD_LAST_RESULTS") {
-    const { lastResults } = await browser.storage.local.get("lastResults");
+    const { lastResults } = await browserAPI.storage.local.get("lastResults");
     return { ok: true, lastResults: lastResults || [] };
   }
 

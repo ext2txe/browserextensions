@@ -1,12 +1,15 @@
 // Popup script for Upwork Job Analyzer
 
+// Cross-browser compatibility
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+
 document.getElementById('analyzeBtn').addEventListener('click', async () => {
   const statusDiv = document.getElementById('status');
   statusDiv.style.display = 'block';
   statusDiv.textContent = '⏳ Analyzing...';
 
   try {
-    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    const tabs = await browserAPI.tabs.query({ active: true, currentWindow: true });
 
     if (tabs.length === 0) {
       statusDiv.textContent = '❌ No active tab found';
@@ -21,7 +24,7 @@ document.getElementById('analyzeBtn').addEventListener('click', async () => {
     }
 
     // Send message to content script
-    await browser.tabs.sendMessage(tab.id, { action: 'analyze' });
+    await browserAPI.tabs.sendMessage(tab.id, { action: 'analyze' });
 
     statusDiv.textContent = '✅ Analysis started!';
 
@@ -32,6 +35,10 @@ document.getElementById('analyzeBtn').addEventListener('click', async () => {
 
   } catch (error) {
     console.error('Error:', error);
-    statusDiv.textContent = '❌ Error: ' + error.message;
+    if (error.message && error.message.includes('Could not establish connection')) {
+      statusDiv.textContent = '⚠️ Please reload the page and try again';
+    } else {
+      statusDiv.textContent = '❌ Error: ' + error.message;
+    }
   }
 });

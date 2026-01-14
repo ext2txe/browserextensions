@@ -1,3 +1,8 @@
+// Cross-browser compatibility
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+
+console.log('[Auto Load More] Content script loaded');
+
 // Automation state
 let isRunning = false;
 let settings = null;
@@ -7,7 +12,7 @@ let contentObserver = null;
 
 // Send status update to popup
 function updateStatus(status, level = 'info') {
-  browser.runtime.sendMessage({
+  browserAPI.runtime.sendMessage({
     type: 'STATUS_UPDATE',
     status: status,
     level: level
@@ -16,7 +21,7 @@ function updateStatus(status, level = 'info') {
 
 // Update click counter
 function updateCounter() {
-  browser.runtime.sendMessage({
+  browserAPI.runtime.sendMessage({
     type: 'COUNTER_UPDATE',
     count: clickCount
   });
@@ -24,7 +29,7 @@ function updateCounter() {
 
 // Notify automation stopped
 function notifyStop(reason) {
-  browser.runtime.sendMessage({
+  browserAPI.runtime.sendMessage({
     type: 'AUTOMATION_STOPPED',
     reason: reason
   });
@@ -294,7 +299,7 @@ function stopAutomation(reason) {
 }
 
 // Listen for messages from popup
-browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+browserAPI.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'START_AUTOMATION') {
     startAutomation(message.settings);
     sendResponse({ success: true });

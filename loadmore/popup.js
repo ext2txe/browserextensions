@@ -1,3 +1,6 @@
+// Cross-browser compatibility
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+
 // Get DOM elements
 const buttonTextInput = document.getElementById('buttonText');
 const pauseDurationInput = document.getElementById('pauseDuration');
@@ -11,7 +14,7 @@ const counterDiv = document.getElementById('counter');
 // Load saved settings and check automation state on popup open
 async function initializePopup() {
   // Load saved settings
-  const items = await browser.storage.sync.get({
+  const items = await browserAPI.storage.sync.get({
     buttonText: 'Load More Jobs',
     pauseDuration: 10000,
     keyPress: 'PageDown',
@@ -25,8 +28,8 @@ async function initializePopup() {
 
   // Check if automation is currently running
   try {
-    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-    const response = await browser.tabs.sendMessage(tabs[0].id, {
+    const tabs = await browserAPI.tabs.query({ active: true, currentWindow: true });
+    const response = await browserAPI.tabs.sendMessage(tabs[0].id, {
       type: 'GET_STATE'
     });
 
@@ -48,7 +51,7 @@ async function initializePopup() {
 initializePopup();
 
 // Listen for status updates from content script
-browser.runtime.onMessage.addListener((message) => {
+browserAPI.runtime.onMessage.addListener((message) => {
   if (message.type === 'STATUS_UPDATE') {
     statusDiv.textContent = message.status;
     statusDiv.className = 'status status-' + message.level;
@@ -91,35 +94,57 @@ startBtn.addEventListener('click', async () => {
   }
 
   // Save settings
-  await browser.storage.sync.set(settings);
+  await browserAPI.storage.sync.set(settings);
 
   // Get active tab
-  const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+  const tabs = await browserAPI.tabs.query({ active: true, currentWindow: true });
 
   // Send start message to content script
-  browser.tabs.sendMessage(tabs[0].id, {
-    type: 'START_AUTOMATION',
-    settings: settings
-  });
+  try {
+    await browserAPI.tabs.sendMessage(tabs[0].id, {
+      type: 'START_AUTOMATION',
+      settings: settings
+    });
 
-  // Update UI
-  startBtn.disabled = true;
-  stopBtn.disabled = false;
-  statusDiv.textContent = 'Starting automation...';
-  statusDiv.className = 'status status-running';
-  counterDiv.textContent = 'Clicks: 0';
+    // Update UI
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+    statusDiv.textContent = 'Starting automation...';
+    statusDiv.className = 'status status-running';
+    counterDiv.textContent = 'Clicks: 0';
+  } catch (error) {
+    // Content script not loaded - try to inject it (Manifest V3 compatibility)
+    if (error.message && error.message.includes('Could not establish connection')) {
+      statusDiv.textContent = 'Please reload the page and try again';
+      statusDiv.className = 'status status-error';
+      console.error('[Auto Load More] Content script not loaded:', error);
+    } else {
+      statusDiv.textContent = 'Error: ' + error.message;
+      statusDiv.className = 'status status-error';
+      console.error('[Auto Load More] Error:', error);
+    }
+  }
 });
 
 // Stop button click handler
 stopBtn.addEventListener('click', async () => {
-  const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+  const tabs = await browserAPI.tabs.query({ active: true, currentWindow: true });
 
-  browser.tabs.sendMessage(tabs[0].id, {
-    type: 'STOP_AUTOMATION'
-  });
+  try {
+    await browserAPI.tabs.sendMessage(tabs[0].id, {
+      type: 'STOP_AUTOMATION'
+    });
 
-  startBtn.disabled = false;
-  stopBtn.disabled = true;
-  statusDiv.textContent = 'Stopped by user';
-  statusDiv.className = 'status status-info';
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+    statusDiv.textContent = 'Stopped by user';
+    statusDiv.className = 'status status-info';
+  } catch (error) {
+    // Just update UI even if message fails
+    startBtn.disabled = false;
+    stopBtn.disabled = true;
+    statusDiv.textContent = 'Stopped';
+    statusDiv.className = 'status status-info';
+    console.error('[Auto Load More] Error stopping:', error);
+  }
 });

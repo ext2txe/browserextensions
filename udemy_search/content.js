@@ -1,3 +1,6 @@
+// Cross-browser compatibility
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+
 function normalizeSpace(s) {
   return (s || "").replace(/\s+/g, " ").trim();
 }
@@ -76,7 +79,7 @@ function extractCoursesFromPage() {
   return deduped;
 }
 
-browser.runtime.onMessage.addListener((msg) => {
+browserAPI.runtime.onMessage.addListener((msg) => {
   if (msg?.type === "UDEMY_EXTRACT") {
     return Promise.resolve({ ok: true, courses: extractCoursesFromPage() });
   }

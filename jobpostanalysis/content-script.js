@@ -1,6 +1,9 @@
 // Upwork Job Post Analyzer - Content Script
 // Extracts job post data and displays analysis
 
+// Cross-browser compatibility
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+
 class UpworkJobAnalyzer {
   constructor() {
     this.data = null;
@@ -861,7 +864,7 @@ class UpworkJobAnalyzer {
   // Load auto-export setting from storage
   async loadAutoExportSetting(checkbox) {
     try {
-      const result = await browser.storage.local.get('autoExportJSON');
+      const result = await browserAPI.storage.local.get('autoExportJSON');
       const autoExport = result.autoExportJSON !== undefined ? result.autoExportJSON : false;
       checkbox.checked = autoExport;
     } catch (e) {
@@ -873,7 +876,7 @@ class UpworkJobAnalyzer {
   // Handle auto-export checkbox change
   async handleAutoExportChange(checked) {
     try {
-      await browser.storage.local.set({ autoExportJSON: checked });
+      await browserAPI.storage.local.set({ autoExportJSON: checked });
       console.log('[Upwork Analyzer] Auto-export setting saved:', checked);
       this.showNotification(
         checked ? 'Auto-export enabled' : 'Auto-export disabled',
@@ -888,7 +891,7 @@ class UpworkJobAnalyzer {
   // Check and perform auto-export if enabled
   async checkAutoExport() {
     try {
-      const result = await browser.storage.local.get('autoExportJSON');
+      const result = await browserAPI.storage.local.get('autoExportJSON');
       const autoExport = result.autoExportJSON || false;
 
       if (autoExport) {
@@ -933,7 +936,7 @@ class UpworkJobAnalyzer {
   async toggleAutoDisplayMode() {
     this.autoDisplayMode = !this.autoDisplayMode;
     try {
-      await browser.storage.local.set({ autoDisplayCompact: this.autoDisplayMode });
+      await browserAPI.storage.local.set({ autoDisplayCompact: this.autoDisplayMode });
       this.showNotification(
         this.autoDisplayMode ? 'Auto-display enabled' : 'Auto-display disabled',
         'success'
@@ -952,7 +955,7 @@ class UpworkJobAnalyzer {
   // Load auto-display mode setting
   async loadAutoDisplayModeSetting() {
     try {
-      const result = await browser.storage.local.get('autoDisplayCompact');
+      const result = await browserAPI.storage.local.get('autoDisplayCompact');
       this.autoDisplayMode = result.autoDisplayCompact || false;
       console.log('[Upwork Analyzer] Auto-display mode:', this.autoDisplayMode);
     } catch (e) {
@@ -1029,7 +1032,7 @@ class UpworkJobAnalyzer {
 const analyzer = new UpworkJobAnalyzer();
 
 // Listen for messages from background script (hotkey trigger)
-browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+browserAPI.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log('[Upwork Analyzer] Received message:', message);
 
   if (message.action === 'analyze') {

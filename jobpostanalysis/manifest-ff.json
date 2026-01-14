@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "Upwork Job Post Analyzer v0.1.13",
   "version": "0.1.13",
   "description": "Analyzes Upwork job posts and extracts detailed information for classification",
@@ -7,13 +7,11 @@
     "activeTab",
     "clipboardWrite",
     "tabs",
+    "<all_urls>",
     "storage"
   ],
-  "host_permissions": [
-    "<all_urls>"
-  ],
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["background.js"]
   },
   "content_scripts": [
     {
@@ -31,7 +29,7 @@
       "description": "Analyze current Upwork job post"
     }
   },
-  "action": {
+  "browser_action": {
     "default_icon": {
       "16": "icons/icon-16.png",
       "48": "icons/icon-48.png",
