@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "[CR] Upwork Job Post Analyzer v0.1.15",
+  "version": "0.1.15",
+  "description": "Analyzes Upwork job posts and extracts detailed information for classification",
+  "permissions": [
+    "activeTab",
+    "clipboardWrite",
+    "tabs",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.upwork.com/*"],
+      "js": ["content-script.js"],
+      "css": ["styles/panel.css"],
+      "run_at": "document_end"
+    }
+  ],
+  "commands": {
+    "analyze-job": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+V"
+      },
+      "description": "Analyze current Upwork job post"
+    }
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "96": "icons/icon-96.png"
+    },
+    "default_title": "Analyze Upwork Job Post",
+    "default_popup": "popup/popup.html"
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
+  }
+}

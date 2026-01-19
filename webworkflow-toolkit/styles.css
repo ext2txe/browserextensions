@@ -1,0 +1,857 @@
+/* ===========================================================================
+   Web Workflow Toolkit - Unified Styles
+   Combines: Highlighter, Navigator, and Analyzer panels
+   All class names and IDs prefixed with 'ww-' for namespace isolation
+   =========================================================================== */
+
+/* ===========================================================================
+   1. HIGHLIGHTER PANEL STYLES
+   =========================================================================== */
+
+#ww-highlighter-panel {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 400px;
+  max-height: 600px;
+  z-index: 2147483645;
+  background: white;
+  border: 2px solid #4CAF50;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  display: none;
+}
+
+#ww-highlighter-panel.visible {
+  display: block;
+}
+
+#ww-highlighter-panel .hl-panel-header {
+  background: linear-gradient(135deg, #4CAF50 0%, #388E3C 100%);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px 6px 0 0;
+  cursor: move;
+  user-select: none;
+}
+
+#ww-highlighter-panel .hl-panel-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+}
+
+/* Highlighter Match Styling */
+.ww-keyword-highlighter-match {
+  background-color: #d3d3d3 !important;
+  border: 2px solid #888 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* ===========================================================================
+   2. NAVIGATOR PANEL STYLES
+   =========================================================================== */
+
+#ww-navigator-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 320px;
+  background: white;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 2147483647;
+  font-family: Arial, sans-serif;
+  display: none;
+}
+
+#ww-navigator-panel.ww-visible {
+  display: block;
+}
+
+#ww-navigator-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 15px;
+  border-radius: 6px 6px 0 0;
+  cursor: move;
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+#ww-navigator-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  line-height: 20px;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+#ww-navigator-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#ww-navigator-content {
+  padding: 15px;
+}
+
+#ww-navigator-selector-container,
+#ww-navigator-ignore-container,
+#ww-navigator-onlyshow-container {
+  margin-bottom: 10px;
+}
+
+#ww-navigator-selector-label,
+#ww-navigator-ignore-label,
+#ww-navigator-onlyshow-label {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  color: #555;
+}
+
+#ww-navigator-use-selector,
+#ww-navigator-ignore-enabled,
+#ww-navigator-onlyshow-enabled {
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+#ww-navigator-selector,
+#ww-navigator-search {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+#ww-navigator-selector:disabled {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+#ww-navigator-selector:focus,
+#ww-navigator-search:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+#ww-navigator-ignore-color,
+#ww-navigator-onlyshow-color {
+  width: 50px;
+  height: 32px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 2px;
+}
+
+#ww-navigator-ignore-color:disabled,
+#ww-navigator-onlyshow-color:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#ww-navigator-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+#ww-navigator-controls button {
+  flex: 1;
+  padding: 10px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+#ww-navigator-controls button:hover {
+  background: #5568d3;
+}
+
+#ww-navigator-controls button:active {
+  background: #4450b5;
+}
+
+#ww-navigator-controls button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+#ww-navigator-refresh {
+  flex: 0.7 !important;
+  font-size: 13px !important;
+}
+
+#ww-navigator-status {
+  text-align: center;
+  color: #555;
+  font-size: 13px;
+  padding: 8px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+#ww-navigator-help {
+  font-size: 11px;
+  color: #777;
+  line-height: 1.5;
+  padding: 10px;
+  background: #fafafa;
+  border-radius: 4px;
+  border-left: 3px solid #667eea;
+}
+
+#ww-navigator-help div {
+  margin: 4px 0;
+}
+
+/* Navigator Highlight Styles */
+.ww-navigator-highlight {
+  outline: 3px solid #667eea !important;
+  background-color: rgba(102, 126, 234, 0.1) !important;
+  scroll-margin: 100px;
+}
+
+.ww-navigator-highlight-current {
+  outline: 3px solid #f59e0b !important;
+  background-color: rgba(245, 158, 11, 0.15) !important;
+  scroll-margin: 100px;
+}
+
+/* ===========================================================================
+   3. ANALYZER PANEL STYLES
+   =========================================================================== */
+
+/* Main Analysis Panel */
+.ww-analyzer-panel {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  width: 600px;
+  max-width: 90vw;
+  max-height: 80vh;
+  background: #ffffff;
+  border: 2px solid #14a800;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 2147483646;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Compact Panel */
+.ww-analyzer-compact-panel {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 320px;
+  max-width: 90vw;
+  background: #ffffff;
+  border: 2px solid #14a800;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  z-index: 2147483646;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+  font-size: 13px;
+}
+
+/* Compact Panel - Pink background when hires > 0 */
+.ww-analyzer-compact-panel.has-hires {
+  background: #ffb3d9;
+}
+
+.ww-analyzer-compact-panel.has-hires .compact-content {
+  background: #ffc7e3;
+}
+
+.ww-analyzer-compact-panel.has-hires .compact-item {
+  background: #ffd6eb;
+}
+
+/* Analyzer Header */
+.ww-analyzer-header {
+  background: linear-gradient(135deg, #14a800, #108a00);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  cursor: move;
+}
+
+.ww-analyzer-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  flex: 1;
+  color: white;
+}
+
+.ww-analyzer-header .header-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.ww-analyzer-header .close-btn,
+.ww-analyzer-header .minimize-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 24px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  line-height: 1;
+  padding: 0;
+}
+
+.ww-analyzer-header .minimize-btn {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.ww-analyzer-header .close-btn:hover,
+.ww-analyzer-header .minimize-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Compact Header */
+.ww-compact-header {
+  background: linear-gradient(135deg, #14a800, #108a00);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  cursor: move;
+}
+
+.ww-compact-header .compact-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+}
+
+.ww-compact-header .compact-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.ww-compact-header .compact-close-btn,
+.ww-compact-header .btn-toggle-mode,
+.ww-compact-header .btn-auto-mode,
+.ww-compact-header .btn-full-analysis {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 16px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  padding: 0;
+}
+
+.ww-compact-header .compact-close-btn:hover,
+.ww-compact-header .btn-toggle-mode:hover,
+.ww-compact-header .btn-auto-mode:hover,
+.ww-compact-header .btn-full-analysis:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.ww-compact-header .btn-auto-mode {
+  opacity: 0.5;
+}
+
+/* Minimized State */
+.ww-analyzer-panel.minimized {
+  width: 250px;
+  max-height: none;
+}
+
+/* Content Areas */
+.ww-analyzer-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  background: #f9f9f9;
+}
+
+.ww-compact-content {
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 0 0 6px 6px;
+}
+
+.ww-compact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+.ww-compact-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.ww-compact-label {
+  font-weight: 600;
+  color: #555;
+  font-size: 12px;
+}
+
+.ww-compact-value {
+  color: #333;
+  font-weight: 500;
+  text-align: right;
+  font-size: 12px;
+}
+
+/* Analysis Table */
+.ww-analysis-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ww-analysis-table th,
+.ww-analysis-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.ww-analysis-table tr:last-child td {
+  border-bottom: none;
+}
+
+.ww-analysis-table .section-header {
+  background: #f0f0f0;
+  font-weight: 700;
+  font-size: 15px;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ww-analysis-table .job-count {
+  font-size: 12px;
+  font-weight: normal;
+  color: #666;
+  margin-left: 8px;
+}
+
+.ww-analysis-table .label {
+  font-weight: 600;
+  color: #555;
+  width: 40%;
+  background: #fafafa;
+}
+
+.ww-analysis-table .value {
+  color: #333;
+  word-break: break-word;
+}
+
+.ww-analysis-table .classification-value {
+  padding: 8px 15px;
+}
+
+.ww-analysis-table .classification-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.ww-analysis-table .classification-input:focus {
+  outline: none;
+  border-color: #14a800;
+}
+
+/* Job History Details */
+.ww-job-history-details {
+  margin-top: 15px;
+  background: white;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ww-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.ww-history-table thead {
+  background: #f0f0f0;
+}
+
+.ww-history-table th {
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #555;
+  border-bottom: 2px solid #ddd;
+}
+
+.ww-history-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333;
+}
+
+.ww-history-table tr:last-child td {
+  border-bottom: none;
+}
+
+.ww-history-table tr:hover {
+  background: #f9f9f9;
+}
+
+.ww-history-table .job-link,
+.ww-history-table .freelancer-link {
+  color: #14a800;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.ww-history-table .job-link:hover,
+.ww-history-table .freelancer-link:hover {
+  text-decoration: underline;
+  color: #108a00;
+}
+
+/* Footer */
+.ww-analyzer-footer {
+  padding: 15px 20px;
+  background: #f5f5f5;
+  border-top: 1px solid #ddd;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.ww-analyzer-footer .auto-export-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+  color: #555;
+}
+
+.ww-analyzer-footer .auto-export-checkbox input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.ww-analyzer-footer button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.ww-analyzer-footer .btn-copy-json {
+  background: #2196F3;
+  color: white;
+}
+
+.ww-analyzer-footer .btn-copy-json:hover {
+  background: #1976D2;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+}
+
+.ww-analyzer-footer .btn-export-json {
+  background: #4CAF50;
+  color: white;
+}
+
+.ww-analyzer-footer .btn-export-json:hover {
+  background: #388E3C;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.ww-analyzer-footer .btn-toggle-details {
+  background: #FF9800;
+  color: white;
+}
+
+.ww-analyzer-footer .btn-toggle-details:hover {
+  background: #F57C00;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+}
+
+/* Notification */
+.ww-analyzer-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 2147483648;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+.ww-analyzer-notification.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ww-analyzer-notification.success {
+  background: #4CAF50;
+}
+
+.ww-analyzer-notification.error {
+  background: #f44336;
+}
+
+.ww-analyzer-notification.info {
+  background: #2196F3;
+}
+
+/* ===========================================================================
+   4. COMMON PANEL STYLES
+   =========================================================================== */
+
+/* Scrollbar Styling for All Panels */
+#ww-highlighter-panel::-webkit-scrollbar,
+#ww-navigator-panel::-webkit-scrollbar,
+.ww-analyzer-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+#ww-highlighter-panel::-webkit-scrollbar-track,
+#ww-navigator-panel::-webkit-scrollbar-track,
+.ww-analyzer-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+#ww-highlighter-panel::-webkit-scrollbar-thumb,
+#ww-navigator-panel::-webkit-scrollbar-thumb,
+.ww-analyzer-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+#ww-highlighter-panel::-webkit-scrollbar-thumb:hover,
+#ww-navigator-panel::-webkit-scrollbar-thumb:hover,
+.ww-analyzer-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Common Button Styles */
+.ww-btn-primary {
+  background: #2196F3;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.ww-btn-primary:hover {
+  background: #1976D2;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+}
+
+.ww-btn-success {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.ww-btn-success:hover {
+  background: #388E3C;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.ww-btn-warning {
+  background: #FF9800;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.ww-btn-warning:hover {
+  background: #F57C00;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+}
+
+/* ===========================================================================
+   5. RESPONSIVE DESIGN
+   =========================================================================== */
+
+@media (max-width: 768px) {
+  #ww-highlighter-panel {
+    width: 95vw;
+    right: 2.5vw;
+    left: 2.5vw;
+  }
+
+  #ww-navigator-panel {
+    width: 95vw;
+    right: 2.5vw;
+    left: 2.5vw;
+  }
+
+  .ww-analyzer-panel {
+    width: 95vw;
+    max-height: 90vh;
+    top: 5vh;
+    right: 2.5vw;
+  }
+
+  .ww-analysis-table .label {
+    width: 45%;
+  }
+
+  .ww-history-table {
+    font-size: 12px;
+  }
+
+  .ww-history-table th,
+  .ww-history-table td {
+    padding: 8px;
+  }
+
+  .ww-analyzer-compact-panel {
+    width: 95vw;
+    right: 2.5vw;
+  }
+}
+
+/* ===========================================================================
+   6. UTILITY CLASSES
+   =========================================================================== */
+
+.ww-hidden {
+  display: none !important;
+}
+
+.ww-visible {
+  display: block !important;
+}
+
+.ww-flex {
+  display: flex !important;
+}
+
+.ww-flex-center {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ww-text-center {
+  text-align: center !important;
+}
+
+.ww-text-right {
+  text-align: right !important;
+}
+
+.ww-mt-1 {
+  margin-top: 8px !important;
+}
+
+.ww-mt-2 {
+  margin-top: 16px !important;
+}
+
+.ww-mb-1 {
+  margin-bottom: 8px !important;
+}
+
+.ww-mb-2 {
+  margin-bottom: 16px !important;
+}
+
+.ww-p-1 {
+  padding: 8px !important;
+}
+
+.ww-p-2 {
+  padding: 16px !important;
+}

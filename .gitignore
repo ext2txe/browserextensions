@@ -80,3 +80,9 @@ tmpclaude-*
 
 # Highlighter extension saved settings
 highlighter/saved/
+.claude/
+listnavigator/*
+udemy_search/
+saved/*
+jobpostanalysis/samples/
+highlighter/samples/

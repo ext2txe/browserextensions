@@ -1,0 +1,208 @@
+/* Job Navigator Extension Styles */
+
+#job-navigator-panel {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 320px;
+  background: white;
+  border: 2px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 999999;
+  font-family: Arial, sans-serif;
+  display: none;
+}
+
+#job-navigator-panel.visible {
+  display: block;
+}
+
+#job-navigator-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 15px;
+  border-radius: 6px 6px 0 0;
+  cursor: move;
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#job-navigator-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  line-height: 20px;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+#job-navigator-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+#job-navigator-content {
+  padding: 15px;
+}
+
+#job-navigator-selector-container {
+  margin-bottom: 10px;
+}
+
+#job-navigator-selector-label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  color: #555;
+}
+
+#job-navigator-use-selector {
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+#job-navigator-selector,
+#job-navigator-search {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+#job-navigator-selector:disabled {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+#job-navigator-selector:focus,
+#job-navigator-search:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+#job-navigator-ignore-container,
+#job-navigator-onlyshow-container {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#job-navigator-ignore-label,
+#job-navigator-onlyshow-label {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #555;
+  cursor: pointer;
+  flex: 1;
+}
+
+#job-navigator-ignore-enabled,
+#job-navigator-onlyshow-enabled {
+  margin-right: 6px;
+  cursor: pointer;
+}
+
+#job-navigator-ignore-color,
+#job-navigator-onlyshow-color {
+  width: 50px;
+  height: 32px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 2px;
+}
+
+#job-navigator-ignore-color:disabled,
+#job-navigator-onlyshow-color:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#job-navigator-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+#job-navigator-controls button {
+  flex: 1;
+  padding: 10px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+#job-navigator-refresh {
+  flex: 0.7 !important;
+  font-size: 13px !important;
+}
+
+#job-navigator-controls button:hover {
+  background: #5568d3;
+}
+
+#job-navigator-controls button:active {
+  background: #4450b5;
+}
+
+#job-navigator-controls button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+#job-navigator-status {
+  text-align: center;
+  color: #555;
+  font-size: 13px;
+  padding: 8px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+#job-navigator-help {
+  font-size: 11px;
+  color: #777;
+  line-height: 1.5;
+  padding: 10px;
+  background: #fafafa;
+  border-radius: 4px;
+  border-left: 3px solid #667eea;
+}
+
+#job-navigator-help div {
+  margin: 4px 0;
+}
+
+/* Highlighting styles for matched jobs */
+.job-navigator-highlight {
+  outline: 3px solid #667eea !important;
+  background-color: rgba(102, 126, 234, 0.1) !important;
+  scroll-margin: 100px;
+}
+
+.job-navigator-highlight-current {
+  outline: 3px solid #f59e0b !important;
+  background-color: rgba(245, 158, 11, 0.15) !important;
+  scroll-margin: 100px;
+}

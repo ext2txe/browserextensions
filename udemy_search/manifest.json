@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Udemy Search Results Extractor 0.1.10",
-  "version": "0.1.10",
+  "name": "[FF] Udemy Search Results Extractor 0.1.11",
+  "version": "0.1.11",
   "description": "Extracts Udemy course data from search results (title, link, rating, counts, duration, lectures, last updated).",
   "permissions": [
     "storage",

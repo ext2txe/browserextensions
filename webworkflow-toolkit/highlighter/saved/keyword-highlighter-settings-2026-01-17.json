@@ -1,0 +1,42 @@
+{
+  "version": "0.2.11",
+  "exportDate": "2026-01-17T21:00:17.775Z",
+  "keywords": [
+    "India",
+    "IND",
+    "[$*]",
+    "slovenia",
+    "kuwait",
+    "bahrain",
+    "bangladesh",
+    "united arab emirates",
+    "ukraine",
+    "philippines",
+    "azerbaijan",
+    "nepal",
+    "egypt",
+    "nigeria",
+    "pak",
+    "pakistan",
+    "GHL",
+    "High Level",
+    "cold calling",
+    "GoHighLevel",
+    "Cold Email",
+    "Indonesia",
+    "BGD",
+    "virtual assistant",
+    "Romance",
+    "albania",
+    "UKR",
+    "bulgaria",
+    "personal assistant"
+  ],
+  "urlPatterns": [
+    "*://www.upwork.com/nx/find-work/*",
+    "*://www.upwork.com/nx/search/jobs/*"
+  ],
+  "highlightColor": "#ffb9b9",
+  "elementSelector": "article, .job, .listing, section",
+  "useWordBoundaries": true
+}

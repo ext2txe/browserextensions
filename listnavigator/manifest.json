@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "List Navigator 0.1.13",
-  "version": "0.1.13",
+  "name": "List Navigator 0.1.14",
+  "version": "0.1.14",
   "description": "Navigate through any webpage with advanced search and filtering",
   "permissions": [
     "activeTab"
@@ -16,7 +16,8 @@
     }
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "scripts": ["background.js"]
   },
   "content_scripts": [
     {

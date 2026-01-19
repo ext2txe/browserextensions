@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Workflow Toolkit</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="header">
+    <h1>Web Workflow Toolkit <span class="version">v0.2.25</span></h1>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="highlighter">
+      <span class="tab-icon">🎨</span>
+      Highlighter
+    </button>
+    <button class="tab-btn" data-tab="navigator">
+      <span class="tab-icon">🔍</span>
+      Navigator
+    </button>
+    <button class="tab-btn" data-tab="analyzer">
+      <span class="tab-icon">📊</span>
+      Analyzer
+    </button>
+    <button class="tab-btn" data-tab="autoload">
+      <span class="tab-icon">⚡</span>
+      Auto Load
+    </button>
+  </div>
+
+  <!-- Tab Panels -->
+  <div class="tab-content">
+
+    <!-- HIGHLIGHTER TAB -->
+    <div class="tab-panel active" id="highlighter-panel">
+      <div class="section">
+        <h3>Keyword Highlighter <kbd>Ctrl+Shift+.</kbd></h3>
+        <p class="description">Highlight elements containing specific keywords on configured websites</p>
+
+        <div class="form-group">
+          <label>Keywords to Highlight:</label>
+          <div class="keyword-input-group">
+            <input type="text" id="keyword-input" placeholder="e.g., urgent, $*, senior">
+            <button id="add-keyword-btn" class="btn btn-sm">Add</button>
+          </div>
+          <div id="keyword-list" class="tag-list"></div>
+          <button id="clear-keywords-btn" class="btn btn-secondary btn-sm">Clear All</button>
+        </div>
+
+        <div class="form-group">
+          <label>URL Patterns (where to run):</label>
+          <div class="keyword-input-group">
+            <input type="text" id="url-pattern-input" placeholder="e.g., *://www.upwork.com/nx/find-work/*">
+            <button id="add-url-btn" class="btn btn-sm">Add</button>
+          </div>
+          <div id="url-list" class="tag-list"></div>
+          <small class="hint">Use * for any chars, ** for anything including /</small>
+        </div>
+
+        <div class="form-group">
+          <label>Element Selector:</label>
+          <input type="text" id="element-selector" placeholder="section.air3-card-section">
+        </div>
+
+        <div class="form-group">
+          <label>Highlight Color:</label>
+          <input type="color" id="highlight-color">
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="word-boundaries">
+            Use word boundaries (match whole words only)
+          </label>
+        </div>
+
+        <div class="button-group">
+          <button id="save-highlighter-btn" class="btn btn-primary">Save Settings</button>
+          <button id="export-highlighter-btn" class="btn btn-secondary">Export</button>
+          <button id="import-highlighter-btn" class="btn btn-secondary">Import</button>
+        </div>
+        <input type="file" id="import-file" accept=".json" style="display: none;">
+      </div>
+    </div>
+
+    <!-- NAVIGATOR TAB -->
+    <div class="tab-panel" id="navigator-panel">
+      <div class="section">
+        <h3>List Navigator <kbd>Ctrl+Shift+N</kbd></h3>
+        <p class="description">Search and navigate through lists on any webpage</p>
+
+        <div class="form-group">
+          <button id="open-navigator-btn" class="btn btn-primary btn-lg">
+            Open Navigator Panel
+          </button>
+          <p class="hint">Opens a draggable search panel on the current page</p>
+        </div>
+
+        <div class="info-box">
+          <h4>Features:</h4>
+          <ul>
+            <li>CSS selector-based element targeting</li>
+            <li>Text search within elements</li>
+            <li>Background color filtering</li>
+            <li>Keyboard navigation (Enter/Shift+Enter)</li>
+            <li>Visual highlighting of matches</li>
+          </ul>
+        </div>
+
+        <div class="shortcuts">
+          <h4>Keyboard Shortcuts:</h4>
+          <ul>
+            <li><kbd>Ctrl+Shift+N</kbd> - Toggle panel</li>
+            <li><kbd>Enter</kbd> - Next match</li>
+            <li><kbd>Shift+Enter</kbd> - Previous match</li>
+            <li><kbd>Esc</kbd> - Close panel</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ANALYZER TAB -->
+    <div class="tab-panel" id="analyzer-panel">
+      <div class="section">
+        <h3>Upwork Job Analyzer <kbd>Ctrl+Shift+A</kbd></h3>
+        <p class="description">Extract and analyze Upwork job posting details</p>
+
+        <div class="form-group">
+          <button id="analyze-job-btn" class="btn btn-primary btn-lg">
+            Analyze Current Job Post
+          </button>
+          <p class="hint">Must be on an Upwork job posting page</p>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="auto-export-json">
+            Auto-copy JSON to clipboard after analysis
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="auto-display-compact">
+            Auto-display compact panel on job pages
+          </label>
+        </div>
+
+        <div class="info-box">
+          <h4>Extracts:</h4>
+          <ul>
+            <li>Job title, description, and budget</li>
+            <li>Client information (rating, reviews, spend)</li>
+            <li>Activity info (proposals, interviewing, response rate)</li>
+            <li>Skills required and category</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTO LOAD TAB -->
+    <div class="tab-panel" id="autoload-panel">
+      <div class="section">
+        <h3>Auto Load More <kbd>Ctrl+Shift+L</kbd></h3>
+        <p class="description">Automatically click "Load More" buttons until a stop condition is met</p>
+
+        <div class="form-group">
+          <label>Button Text/Caption:</label>
+          <input type="text" id="button-text" placeholder="Load More Jobs">
+          <small class="hint">Text content of the button to click</small>
+        </div>
+
+        <div class="form-group">
+          <label>Max Load Wait (ms):</label>
+          <input type="number" id="pause-duration" value="10000" min="1000" max="60000" step="1000">
+          <small class="hint">Maximum time to wait for content to load</small>
+        </div>
+
+        <div class="form-group">
+          <label>Key to Press After Click:</label>
+          <select id="key-press">
+            <option value="PageDown">Page Down</option>
+            <option value="ArrowDown">Arrow Down</option>
+            <option value="End">End</option>
+            <option value="Space">Space</option>
+            <option value="None">None</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Stop String (when to stop):</label>
+          <input type="text" id="stop-string" placeholder="Posted 2 days ago">
+          <small class="hint">Stops when this text appears on the page</small>
+        </div>
+
+        <div class="button-group">
+          <button id="start-autoload-btn" class="btn btn-success">Start</button>
+          <button id="stop-autoload-btn" class="btn btn-danger" disabled>Stop</button>
+        </div>
+
+        <div id="autoload-status" class="status-box"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="status" id="status-message"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

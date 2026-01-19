@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "[CR] Keyword Highlighter 0.2.14",
+  "version": "0.2.14",
+  "description": "Highlight elements on any website based on custom keywords and URL patterns. Supports wildcards and real-time filtering.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Keyword Highlighter Settings",
+    "default_icon": {
+      "48": "icon48.png",
+      "96": "icon48.png"
+    }
+  },
+  "icons": {
+    "48": "icon48.png",
+    "96": "icon48.png"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "version": "0.2.10",
+  "exportDate": "2026-01-14T09:37:17.470Z",
+  "keywords": [
+    "extension"
+  ],
+  "urlPatterns": [
+    "*://www.upwork.com/nx/find-work/*",
+    "*://www.upwork.com/nx/search/jobs/*"
+  ],
+  "highlightColor": "#ffb9b9",
+  "elementSelector": "article, .job, .listing, section",
+  "useWordBoundaries": true
+}

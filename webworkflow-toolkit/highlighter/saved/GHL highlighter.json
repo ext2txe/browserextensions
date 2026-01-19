@@ -1,0 +1,16 @@
+{
+  "version": "0.2.9",
+  "exportDate": "2026-01-18T06:57:32.517Z",
+  "keywords": [
+    "GHL",
+    "Go High Level",
+    "GoHighLevel"
+  ],
+  "urlPatterns": [
+    "*://www.upwork.com/nx/find-work/*",
+    "*://www.upwork.com/nx/search/jobs/*"
+  ],
+  "highlightColor": "#ffb9b9",
+  "elementSelector": "article, .job, .listing, section",
+  "useWordBoundaries": true
+}

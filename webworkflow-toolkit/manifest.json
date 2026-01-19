@@ -1,0 +1,84 @@
+{
+  "manifest_version": 3,
+  "name": "Web Workflow Toolkit v0.2.39",
+  "version": "0.2.39",
+  "description": "All-in-one productivity toolkit: Keyword Highlighter, List Navigator, Upwork Analyzer, and Auto Load More",
+
+  "permissions": [
+    "activeTab",
+    "storage",
+    "clipboardWrite",
+    "tabs",
+    "scripting"
+  ],
+
+  "host_permissions": [
+    "<all_urls>"
+  ],
+
+  "background": {
+    "service_worker": "background.js",
+    "scripts": ["background.js"]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Web Workflow Toolkit",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "96": "icons/icon-96.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+
+  "commands": {
+    "toggle-highlighter": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Period"
+      },
+      "description": "Toggle Highlighter settings panel"
+    },
+    "toggle-navigator": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+N"
+      },
+      "description": "Toggle List Navigator panel"
+    },
+    "analyze-job": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+A"
+      },
+      "description": "Analyze Upwork job post"
+    },
+    "toggle-autoload": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L"
+      },
+      "description": "Toggle Auto Load More"
+    }
+  },
+
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png",
+    "128": "icons/icon-128.png"
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "webworkflow-toolkit@example.com",
+      "strict_min_version": "109.0"
+    }
+  }
+}
